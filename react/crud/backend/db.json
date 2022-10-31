@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": 2,
+      "name": "Humberto Monteiro",
+      "email": "bertohf5@gmail.com"
+    },
+    {
+      "name": "humberto",
+      "email": "bertohf@hotmail.com",
+      "id": 3
+    },
+    {
+      "name": "humberto",
+      "email": "bertohf5@gmaio.com",
+      "id": 4
+    }
+  ]
+}

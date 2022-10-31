@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Selecionar Elementos #04</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+
+<body class="conteudo exercicio">
+    <div>
+        <p>Início</p>
+    </div>
+    <div>
+        <ul>
+            <li>Pedro</li>
+            <li>Ana</li>
+            <li>Bia</li>
+        </ul>
+    </div>
+    <div>
+        <p>Fim</p>
+    </div>
+    <script>
+        function log() {
+            console.log(this)
+        }
+
+        HTMLCollection.prototype.log = log
+        HTMLElement.prototype.log = log
+        NodeList.prototype.log = log
+        Node.prototype.log = log
+
+        //selecionando elementos
+        const lista = document.querySelector('div ul')
+
+        //acessando seu prototype, chamado de pai na arvore dom
+        lista.parentNode.log()
+
+        //acessa os filhos, nesse caso os textos tambem são mostrados.
+        lista.childNodes.log()
+
+        //serve para selecionar o primeiro filho do elemento
+        const primeiro = lista.firstChild
+
+        /*no caso o elemento tem algumas espacos que sao passados como texto
+        para o resultado*/
+        primeiro.log()
+
+        //o nextSibling mostra o proximo filho.
+        primeiro.nextSibling.log()
+
+        const ultimo = lista.lastChild
+        ultimo.log()
+        /*da mesma forma que para acessar o primeiro elemento o ultimo 
+        tem espacos e para pegar um filho anterior é com o previousSibling*/
+        ultimo.previousSibling.log()
+
+        //mostra todos os filhos
+        lista.children.log()
+
+        //mostra o primeiro filho
+        lista.firstElementChild.log()
+
+        //mostra o ultimo filho
+        lista.lastElementChild.log()
+
+        //mostra o elemento anterior sem contar os textos
+        lista.parentNode.previousElementSibling.log()
+
+        //mostra o elemento posterior sem contar os textos
+        lista.parentNode.nextElementSibling.log()
+
+    </script>
+</body>
+
+</html>

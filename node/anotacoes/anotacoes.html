@@ -1,0 +1,81 @@
+comandos básicos no package.json
+
+<h1>Node.js</h1>
+<p>
+    Para fazer o que estará escrito aqui nessas anotações precisa ter instalado 
+    na sua maquina o node js e o visual studio code.
+</p>
+<p>
+    Com todos as aplicações instaladas vamos primeiro ver alguns comandos que 
+    podemos usar no node.js, no seu prompt de comando da sua maquina ou no vs code.
+</p>
+<p>
+    Para acessarmos uma pasta no nosso terminal usamos o comando cd e o nome da
+    pasta. Já para criar uma pasta podemos usar o comando mkdir e o nome da pasta.
+    Então podemos fazer os seguintes comandos: mkdir teste da o enter e depois o
+    comando: cd teste e apertar o enter. Pronto você já criou e entrou na pasta.
+</p>
+<p>
+    O comando dir no terminal é um dos comando principais. Ap ser executado ele lista
+    todos os diretórios existentes em uma pasta. Então, se uma pasta 'provas' tiver 
+    as pastas: 'Trimestre 1' e 'Trimestre 2', com o camando dir na pasta provas, o
+    prompt listará essas pastas.
+</p>
+<p>
+    Temos comandos que podemos precisar, como o pwd para saber em qual pasta esta
+    atualmente.
+</p>
+
+
+
+cd - pasta
+cd funcoes - entra na pasta
+pwd - saber em qual pasta está
+-v - saber a versão
+npm - é o geranciador de pacotes do node
+npm i - significa install (tambem pode ser escrito install) serve para intalar bibliotecas ou dependencias
+npm init - configurar arquivo package.json
+npm init -y - faz o arquivo de forma automatica
+
+sobre o arquivo package.json:
+esse arquivo vai ter a descrição de todas as dependencias que 
+seu projeto precisa. Baixado dependencia dessa forma:   
+npm i --save axios - usamos o --save para gerar uma area que será
+colocado as dependencias do seu projeto.
+
+no exemplo acima com o axios a versão aparece do lado da seguinte forma:
+"exios": "^0.27.2"
+
+temos um sinal e uma sequencia com tres numeros. O primeiro é o minor, o 
+segundo major e o ultimo o fix
+
+o sinal passado no exemplo foi o circunflexo. Isso quer dizer que a versão
+da sua dependencia poderar atualizar automaticamente o mejor até a versão 99, 
+mas não poderar chegar na versão 1 do minor.    
+
+pode alterar o sinal. Usando o ~ só irá atualizar automaticamente a versão do fix
+
+e se não usar nenhum sinal, quer dizer que só vai usar a versão informada
+
+tem como baixar dependencias necessarias apenas no desenvolvimento da aplicação.
+usando o mesmo exemplo do axios fariamos o seguinte comando no terminal para baixar:
+npm  i --save-dev axios@0.27.2 -E
+npm e o i já sabemos o que é, o --save-dev serve para informar que só necessaria no
+desenvolvimento, em seguida informamos a dependencia que queremos baixar. Depois o
+sinal @, logo em seguida a versão e por ultimo o -E para informar que quer que instale
+exatamente a versão passada.
+
+aula 160 da seção node:
+Usar scripts
+
+no exemplo foi adicionado dois scripts com a mesma função, chamar o nodemon para executar
+o código sem precisar usar atalhos ou botões, apenas salvando o código.
+
+o primeiro nomeamos como start e o segundo como dev
+
+para startar seu projeto basta usar o comando npm e o nome do script
+na verdade apenas o script com o nome start vai ser assim, pois já é
+um comando padrão do node.
+
+para startar outro script nomeado com algum comando não padrão temos 
+que chamar da seguinte forma: npm run dev

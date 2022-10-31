@@ -1,0 +1,167 @@
+<h1>Next.js</h1>
+<h2>Fundamentos</h2>
+<h3>Comando para criar projeto</h3>
+<p>
+    npx create-next-app <strong>nome do projeto</strong>(colocar o nome do projeto onde 
+    está em negrito). Assim irá baixar tudo e em seguida basta que entre na pasta 
+    que você nomeou no comando anterior e usar o comando npm run dev. Agora você tem pode
+    acessar o local host que geralmente é o 3000 e acessar seu projeto.
+</p>
+<p>
+    Caso não saiba acessar o local host é simples, apenas entre no seu navegador e digite
+    a url localhost: a porta que foi inicializada. (a porta dessa que o next inicia é por
+    padrão a 3000, essa informação estará no seu terminal de comando). Então para entrar no 
+    projeto use a seguinte url: localhost:3000
+</p>
+
+<h3>Principais pastas</h3>
+<p>
+    Com o projeto criado temos três páginas principais: public, pages e styles. Com proposito
+    de deixar mais organizado crio outra pasta chamada src e coloco a pasta pagees e styles 
+    dentro da pasta src.
+</p>
+<h4>Public</h4>
+<p>
+    A pasta public vai servir para colocar arquivos de images ou fontes. Você pode criar subpastas
+    para separar esses arquivos( como uma pasta para imagens e outra para fontes.)
+</p>
+
+<h4>Pages</h4>
+<p>
+    Essa pasta se inicia com uma pasta api, que será onde vamos construir nossa api, pois o next.js é
+    um frame work full stack. Tem terá um arquivo _app.js e o
+    index.js que é o arquivo que será carregado no seu navegador.
+</p>
+<h5>Pasta api</h5>
+<p>
+    Para acessarmos a pasta api, podemos passar o caminho dela na url, da seguinte forma:
+    localhost:3000/api/hello
+</p>
+<h5>arquivo index.js</h5>
+<p>
+    Para aprender a usar o index, podemos apagar o existente e criar um novo. Podemos retornar
+    um componente funcional ou um componente baseado em classe. Nesse caso podemos criar uma
+    função e apenas retornar uma string. Da seguinte forma:
+    <pre>
+        function inicio() {
+            return 'Início'
+        }
+    </pre>
+    dessa forma o next.js não vai conseguir interpretar. Para conseguir interpretar precisa que
+    o componente seja exportado de forma padrão. Para fazer isso é muito simples. Precisamos
+    apenas usar o export default antes. Vêja como ficaria:
+    <pre>
+        export default function inicio() {
+            return 'Início'
+        }
+    </pre>
+    Pronto! Agora é so vê seu navegador que a string já está sendo retornada.
+</p>
+<p>
+    Páginas criadas além do index serão usadas como caminhos de url. Para entender melhor: 
+    se criaremos um arquivo chamado teste e exportarmos uma função que retorna uma string.
+    podemos acessar esse arquivo somente mudando o caminho da url. No caso localhost:3000/teste.
+</p>
+<p>
+    Podemos criar pastas para que as páginas fiquem mais organisadas e para acessar basta que
+    usemos o caminho correto. Podemos criar uma pasta chamada abc e dentro dessa pasta criar
+    outra pasta com o nome def e dentro dessa pasta colocar nosso arquivo de teste, e para 
+    acessar vamos apenas seguir o caminho correto, que no caso seria: localhost/3000/abc/def/teste
+</p>
+<h6>Usar o jsx</h6>
+<p>
+    Podemos usar o arquivo jsx para facilitar a criação do mesmo. Usar jsx permite que possamos
+    criar tags HTML dentro do nosso código JavaScript. Como visto anteriormente, por padrão o next
+    cria arquivos na pasta pages, mas esses arquivos são js e vamos mudar par jsx. Então o arquivo
+    _app.js e o index.js vamos mudar para _app.jsx e index.jsx.
+</p>
+<p>
+    Feito as alterações pedemos fazer o seguite comando:
+    <pre>
+        export default function inicio() {
+            return &lt;h1>Início&lt;/h1>
+        }
+    </pre>
+    Podemos passar diretamente uma tag HTML e será retornada normalmente e se inspecionarmos o código 
+    veremos que a tag foi colocada. Isso só será suportado pelo arquivo jsx e não com js.
+</p>
+<h4>JSX</h4>
+<h3>Falando mais um pouco sobre jsx</h3>
+<p>
+    com o tipo de arquivo jsx, que vamos trabalhar com react e com o next você pode usar tags HTML, mas para
+    código JavaScript temos que usar outra sintaxe.
+</p>
+<p>
+    Quero declarar variaveis e fazer alguma ação com essas variaveis. Para podermos fazer tal coisa, temos que
+    usar código JavaScript, e não pode ser como uma função normal:
+    <pre>
+        export default function jsx() {
+            const a = 1
+            const b = 3
+
+            return (
+                &lt;div>
+                    &lt;h1>JSX é um conceito central&lt;/h1>
+                    a + b
+                &lt;/div>
+            )
+        }
+    </pre>
+    Dentro do código jsx tem uma sitaxe que pertence ao JavaScript e não sera renderizada da forma desejada.
+    Para que tenhamos o resultado que queremos temos que usar o códio dentro de chaves. Dá seguinte forma:
+    <pre>
+        export default function jsx() {
+            const a = 1
+            const b = 3
+
+            return (
+                &lt;div>
+                    &lt;h1>JSX é um conceito central&lt;/h1>
+                    {a + b}
+                &lt;/div>
+            )
+        }
+    </pre>
+    Dessa forma o código será interpretado correntamente.
+</p>
+<p>
+    Podemos atribuir a variaveis ou constantes jsx e usa-los no rotorno da função.
+    <pre>
+        export default function jsx() {
+            const titulo = &lt;h1>JSX é um conceito central&lt;/h1>
+
+            return (
+                &lt;div>
+                    {titulo}
+                &lt;/div>
+            )
+        }
+    </pre>
+    Podemos colocar strings direto no par de chaves:
+    <pre>
+        export default function string() {
+            return (
+                &lt;div>
+                    &lt;h1>{"Muito legal"}&lt;/h1> 
+                    &lt;h2>{"Muito legal.toUpperCase"}&lt;/h2>
+                &lt;/div>
+            )
+        }
+    </pre>
+    Podemos usar funções para retornar jsx tambem, basta criarmos a função e passarmos chamndo a mesma:
+    <pre>
+        export default function retornoFuncao() {
+
+            function subtitulo() {
+                return &lt;h2>Retornando com função&lt;/h2>
+            }
+
+            return (
+                &lt;div>
+                    {subtitulo()}
+                &lt;/div>
+            )
+            
+        }
+    </pre>
+</p>

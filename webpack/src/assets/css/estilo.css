@@ -1,0 +1,7 @@
+body { 
+    background-color: #04f;
+    background-image: url(../images/boneco.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+} /*para interpretar o css o webpack precisa de um loader especifico. Para configurarmos isso, temos que na pasta do webpack e configurar o module com o loader necessario*/

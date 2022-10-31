@@ -1,0 +1,203 @@
+na pasta node foi criada a pasta projeto1.0
+
+no terminal entramos na pasta node depois nessa pasta que criamos
+
+agora usamos o comando npm -y para ser criado o arquivo 
+package.json dentro da pasta criada
+
+instalamos o express da seguinte forma
+
+npm i --save express@4.16.2 -E
+
+(na pasta anotações tem o significado desses comandos)
+
+vamos seguir um padrão usado pelo professor do curso e criar uma
+pasta nomeada como src, que seria a pasta do codigo fonte.
+
+nessa pasta criamos um arquivo servidor.js
+
+vamos começar declarando uma porta, pois sempre que estamos trabalhando 
+com algum tipo de aplicação que tenha interação e comunicaçao com rede 
+precisamos usar esse macanismo.
+
+porta é um processo de conexão com rede dentro de um computador, que 
+mostrará onde será interpretado cada pacote recebido.
+como exemplo o browser ou o whatsapp usam conexão com rede, então para 
+para saber qual dos dois processos vão interpretar os dados, alem do ip que 
+é para saber onde está a maquina que irá receber, tambem é mandada a porta para 
+saber qual aplicação irá interpretar de fato os dados.
+E essa porta é única por processo, caso start a aplicação duas vezes vai dar
+problema, pois a porta já está sendo executada.
+
+curiosidade:
+a porta 80 é a porta padrão
+
+continuando com o exercicio...
+
+dentro do arquivo package.json o main está com o valor index.js e será alterado 
+para src/servidor.js, foram a pasta e o arquivo que criamos.
+
+e vamos criar um script com nodemon que o ideal é ele estar
+na depencia apenas do desinvolvimento, pois não é usado na 
+pratica em produção
+
+npm i --save-dev nodemon@1.14.11 -E
+
+vamos instalar tambem a biblioteca express
+
+npm i --save express@4.16.2 -E
+
+vamos agora importar o express para uma constante tambem chamada express no
+arquivo servidor que criamos na pasta src e em seguida inicia-lo, pois ele 
+é uma função. Para iniciar é muito simples vamos criar outra constante com 
+o nome app e atribuir o express, chamando-o. const app = express()
+
+------------------------------------------------------------------------
+
+em seguida criamos um novo arquivo chamado bancoDeDados.js que vai servir
+para criarmos funcões que irão ser usadas nas requisições do espress. nesse
+arquivo vamos começar criando um pequeno objeto para representar uma sequencia, 
+para adicionar os id dos objetos que vamos persistir, quer dizer que o produto 
+que for passado que não tiver o id, o id será adicionado a partir desse objeto.
+nomeamos ele como sequence.
+
+agora criamos um objeto vazio chamado produtos para atribuimos os
+produtos que vamos cadastrar no nosso projeto. que terá nome, preco e id
+
+-------------------------------------------------------------------------
+requisição post para adicionar
+-------------------------------------------------------------------------
+
+agora vamos criar uma função salvarProduto passando o parametro produto.
+justamente para cadastrarmos os produtos.
+Dentro dessa função vamos fazer uma condição. Se o id do produto for
+null ou undefined, o produto vai receber o id do objeto sequence que 
+criamos.
+if(!produto.id)produto.id = sequence.id
+
+e em seguida fazemos uma atribuição ao objeto vazio criado anteriormente.
+terá como chave o produto[id] que foi passado e o valor desse atributo
+será o proprio produto.
+produtos[produto.id] = produto
+
+aqui o objeto vazio está recebendo o protudo.id como chave e o parametro 
+passado para função como valor. Então finalmento essa função irá retornar 
+o objeto produto
+
+-------------------------------------------------------------------------
+requisição get para mostrar
+-------------------------------------------------------------------------
+
+a proxima função que será criada será uma função para pegar o produto
+pelo id. o nome da função será getProduto que será passado como parametro
+o id. Essa função vai retornar simplesmento podutos[id] se for null 
+retornará um o bjeto vazio.
+
+agora vamos fazer uma função para retornar todos os objetos
+com o nome de getProdutos apenas retornando Objects.values(produtos)
+
+e para finalizar vamos tornar bublica as funções que criamos
+usando o module.exports e passando elas em um objeto
+
+--------------------------------------------------------------------------
+
+voltamos no arquivo servidor e importamos o modulo bancoDeDados.js
+
+primeiramente importamos o modulo que acabamos de criar em uma constante
+
+vamos usar o padrão middleware, usanco o express no caso a constante app
+passamos o get que é uma forma de requisição, passaremos '/produtos' e como 
+resposta para essa requisição vamos passar uma função middleware com três 
+parametros (req, res e next). Toda requisição get tem a requisição e a resposta.
+Nessa função vamos passar para o parametro resposta a função send que envia 
+uma resposta para o browser e vamos mandar como resposta o modulo que atribuimos
+a constante bancoDeDados e passando a função que retorna todos os produtos.
+
+app.get('/produtos', (req, res, next) => {
+    res.send(bancoDeDados.getProdutos())
+})
+
+vamos criar outro metodo, tambem com o get e dessa vez vamos fazer uma requisição 
+do id, passando '/produtos/:id' dessa forma referenciamos que queremos como resposta
+apenas o produto com o id setado na url. como resposta vamos passar tambem uma função
+middleware com os mesmos parametros da anterior, mas dessa vez vamos passar a função
+getProduto que configuramos no arquivo bancoDeDados. nessa função teremos que colocar
+os parametros, que informará qual o id que foi requisitado. Para pegarmos essa parametro
+vamos passar req.params.id. req é a requisição e o params é para informar que vai ser 
+pego o parametro a seguir que no caso foi o id.
+
+app.get('/produtos/:id', (req, res, next) => {
+    res.send(bancoDeDados.getProduto(req.params.id))
+})
+
+agora vamos fazer outra função, dessa vez no lugar de get vamos usar o post que irá 
+submeter os dados e salvar um novo produto.
+estará mapeado na mesma url, o que irá diferenciar é requisição, uma é get e a outra post.
+passamos para a função middleware os mesmos parametro e dentro da função criaremos uma 
+constante que recebera o nome produto e será atribuido a função do arquivo bancoDeDados
+salvarProdutos que como parametro dessa função vamos passar um objeto, que terá nome e preco.
+vamos pegar esses dados a partir do corpo da requisição. e no final retornaremos a constante
+com uma res.send para mostrar no browser. ja retorna no formato json.
+
+app.post('/produtos', (req, res, next) => {
+    const produto = bancoDeDados.salvarProduto({
+      nome: req.body.nome, 
+      preco: req.body.preco
+    })
+    res.send(produto)
+})
+
+tentar uma requisição com o post dará erro, pois falta ainda instalarmos uma outra dependencia
+vamos instalar o body-parser que irá tratar os dados de forma correta.
+npm i --save body-parser@1.18.2 -E
+
+vamos agora no arquivo servidor.js para inportarmos essa dependencia numa constante com o mesmo
+nome.
+
+agora vamos passar para o app que é a constante onde esta o espresse e usraremos a requisição do 
+tipo use que pega qualquer que seja a url da porta indicada. Então dentro dessa requisição colocamos
+bodyParser.urlencoded() que é a dependencia que impotamos e uma função que retorna um middleware.
+nesse comsando está sendo informado que queremos da um parse no body da requisição, então temos que 
+passar um objeto para a função middleware que estará no modo extended
+
+app.use(bodyParser.urlencoded({extended: true}))
+
+essa função quer dizer que qualquer url que tiver no padrão urlenconded que é o que estamos ultilizando
+aqui, ele passara por essa função e sofrerá um parse que ira transformar-los em objetos.
+
+ja usamos o tipo get e post, para usarmos o tipo put de requisição podemos copiar essa função do post e 
+alterar a requisição para put e na requisição alterar colocando o paramentro id. No objeto que sera 
+retornado na função middleware colocaremos o id para conseguir sobrepor o produto a partir do id.
+
+app.put('/produtos/:id', (req, res, next) => {
+    const produto = bancoDeDados.salvarProduto({
+        id: req.params.id,
+        nome: req.body.nome,
+        preco: req.body.preco
+    })
+    res.send(produto)
+})
+
+para fazermos uma exclusão, temos que usar o tipo delete. Primeiramente vamos no arquico bancoDeDados e
+fazer uma função para deletar. O nome da função será excluirProduto e receberá como parametro id
+dentro da função vamos atribuir o produtos[id] a uma constante chamada produto, em seguida vamos fazer 
+um delete produtos[id] e por ultimo vamos retornar o produto que deletamos. Entao colocamos essa função 
+no objeto que extamos importando as funções.
+
+function excluirProduto(id) {
+    const produto = produtos[id]
+    delete produtos[id]
+    return produto
+}
+
+agora voltamos ao arquivo servidor e faremos outro metodo com o app passando dessa vez o tipo delete
+de requisição e a requisição que faremos será com o parametro id, passamos novamente a função middleware
+com os mesmos parametroas das outras. Dentro dessa função vamos fazer uma constante com o nome produto 
+atribuir a ela a função que criamos para excluir, que está no arquivo bancoDeDados. Vamos passar como 
+parametro para essa função so o id que será enviado como parametro na requisição, por fim retornar o 
+produto com a função send
+
+app.delete('/produtos/:id', (req, res, next) => {
+    const produto = bancoDeDados.excluirProduto(req.params.id)
+    res.send(produto) 
+})

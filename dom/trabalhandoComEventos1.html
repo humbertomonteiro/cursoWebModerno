@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Trabalhando com Eventos #01</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class="conteudo exercicio">
+    <div>
+        <!--o evento onclick pode ser passado para própria tag com o 
+        parametro event(que é o próprio evento do onclick) 
+        Dessa forma fica explicito que a tag irá sofrer uma ação, mas 
+        fica uma forma mais trabalhosa, pois terá que colocar o evento de
+        forma hardcode-->
+        <!--onclick="navegarEm5(event)"-->
+        <a esperar href="https://google.com.br" >Google</a>
+    </div>
+    <script>
+        function navegarEm5(e) { //O e que está que a função recebe é o proprio evento
+            e.preventDefault() //para interromper o fluxo normal de um evento usa-se preventDefault
+            console.log('Saindo em 5 segundos')
+            setTimeout(() => {
+                const link = e.target //O e.target é o elemento HTML que esta dentro do evento(no caso o proprio link)
+                window.location.href = link.href //window.lacation é a barra de pesquisa do google
+            }, 5000)
+        }
+
+        /*Outra forma de chamar o evento onclick é selecionando a tag e
+        usando a notação ponto. Resolve o problema de ser complicado a aplicação
+        mas fica mais dificil saber o que será que vai acontecer com esse evento. */
+        
+        /*const a = document.querySelector('a')
+        a.onclick = navegarEm5*/
+
+        /*A forma que fica explicito e fácil de fazer é com um atributo personalizado
+        fivará explicito na tag e será adicionada de forma programatica.*/
+        const a = document.querySelector('[esperar]')
+        a.onclick = navegarEm5
+    </script>
+</body>

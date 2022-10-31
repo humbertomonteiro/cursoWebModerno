@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Modificando HTML #01</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+    <script src='js/jquery.js'></script>
+</head>
+
+<body class='conteudo exercicio'>
+    <h1>Modificando HTML #01</h1>
+    <div id='conteudo1'></div>
+    <div id='conteudo2'></div>
+    <div id='conteudo3'></div>
+    <div>Sem ID</div>
+
+    <script>
+        //Conteudo 1
+        $('#conteudo1').append('<p>1</p>') //adicionando na dom
+
+        //Conteudo 2
+        const elementos = [ //criando elementos em um array
+            $('<li>').append('Arroz'),
+            $('<li>').append('Feijão'),
+            $('<li>').append('Carne')
+        ]
+
+        const lista = $('<ul><li>Sorvete</li></ul>').prepend(elementos) //adicionando um outro elemento na ultima linha, pois é um prepend ao array lista
+        $('#conteudo2').append(lista) //adicionando lista ao id conteudo2
+
+        //Conteudo 3
+        $('#conteudo3').append('<h1>1</h1>')
+            .append('<h1>2</h1>').prepend('<h1>0</h1>') //aninhando appends e prepends
+        $('#conteudo3').html('<h1>123</h1>') //essa função não anexa elementos igual o as funções anteriores, ela subistitui
+        $('#conteudo3').text('<h1>123</h1>') //outra forma de substituir é com o text, mas aqui só vai o texto é não será interpretada nenhuma tag
+
+        //Alternando todos
+        $('div[id]').html('<strong>Todos!</strong>') //modifica todas as divis que tem id
+    </script>
+</body>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Acessando Atributos #02</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+</head>
+
+<body class='conteudo exercicio'>
+    <div>
+        <label for="compras">Compras</label>
+        <ul id="compras" destino='escritorio' data-urgencia="5"
+        data-blabla="opa">
+            <li>Café</li>
+            <li>Água</li>
+            <li>Copo Descartável</li>
+        </ul>
+    </div>
+    <script>
+        const lista = document.querySelector('div ul[destino="escritorio"]')
+        console.log(lista.childNodes)
+
+        /*propriedades perdonalizadas não vão ser interpretadas.
+        para podermos acessalas usamos o getAttribute*/
+        console.log(lista.destino)
+        console.log(lista.getAttribute('destino'))
+
+        //para sabermos se o elemento tem algum atributo.
+        console.log(lista.hasAttribute('destino'))
+
+        //podemos mudar o valor de atributo
+        lista.setAttribute('destino', 'empresa')
+
+        //podemos criar atributos
+        lista.setAttribute('status', 'aberto')
+
+        //podemos remover atributos
+        lista.removeAttribute('destino')
+
+        /*quando criamos atributos com data-e no nome do atributo
+        posemos usar alguns comandos a mais do que quando nao
+        colocamos o data-*/
+
+        /*podemos dar o comando dataset para vermos os atributos
+        com esse prefixo e o valor de todos eles*/
+        console.log(lista.dataset)
+
+        //podemos pegar um atributo especifico com a notação ponto
+        console.log(lista.dataset.blabla)
+
+        //podemos alterar tambem os valores
+        lista.dataset.urgencia = 4
+
+        //cuidados
+        const label = document.querySelector('label')
+
+        /*o atributo do label for não é uma palavra reservada do html,
+        então se tentarmos ver com label.for será indefinido, teremos
+        que user o comando*/
+        console.log(label.htmlFor)
+    </script>
+</body>
+
+</html>

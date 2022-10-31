@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>Modificando HTML #02</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+    <script src='js/jquery.js'></script>
+</head>
+
+<body class='conteudo exercicio'>
+    <h1>Modificando HTML #02</h1>
+    <div id='div1'>1</div>
+    <div id='div2'>2</div>
+    <div id='div3'>3</div>
+    <p class='numero'>4</p>
+    <p class='numero'>5</p>
+
+    <script>
+        //adicionando assim dá para passar apenas os dados
+        $('#div1').prepend('0, ')
+        $('#div1').append(', 2')
+
+        //adicionando assim tem q passar alguma tag como span para não dar error
+        $('<span>, 3</span>').appendTo('#div1')
+        $('<span>-1, </span>').prependTo('#div1')
+
+        //adicionando elementos antes e depois do elemento selecionando
+        $('#div2').before('<p>Antes 2</p>')
+        $('#div2').after('<p>Depois 2</p>')
+
+        //tambem adiciona elementos antes e depois do elemento selecionado, mas com outra sintaxe
+        $('<p>Antes 3</p>').insertBefore('#div3')
+        $('<p>Depois 3</p>').insertAfter('#div3')
+        
+        //$('p.numero').wrap('<div>') //envolvendo elementos selecionados em elementos passados (cada elemento individual)
+        $('p.numero').wrapAll('<div id="div4">') //agora envolvendo todos os elemetos selecionados em apenas um elemento(e tambem esta passando id)
+        $('#div4').empty() //lempa o elemento, continua existindo, mas sem dados
+        $('#div3, #div4').prev().remove() //seleciona os elementos anteriores e o remove ja sabe ne?!
+
+        //$('<div>Subtitulo</div>').replaceAll('body > p') //substitui os p do body pola div passada
+        //$('body > p').replaceWith('<div>Substituto</div>') //faz a mesma coisa do exemplo anterior, mas informa os elementos que serão substituidos antes
+        $('body > p').replaceWith(function() { //o replaceWith pode receber uma função
+            return $('<div>').html($(this).html()) //essa função esta funcionando como um wrap, mas adicionando o contedo do p no elemento criado
+        })
+    </script>
+</body>

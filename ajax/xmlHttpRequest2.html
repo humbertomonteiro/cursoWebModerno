@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <title>XMLHttpRequest #02</title>
+    <link rel='stylesheet' href='css/estilo.css'>
+    <style>
+        input[type=file] {
+            display: flex;
+            margin: 10px;
+            padding: 40px;
+            font-size: 40px;
+            background: crimson;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body class="conteudo exercicio">
+    <input type="file" name="arquivo" />
+    <div class="progresso"></div>
+
+    <script>
+        /*criando função que recebe apenas um parametro, mas o paramerto é um obj que vão ter
+        todos os argumentos que precisamos*/
+        function ajaxUpload(config) {
+            /*instancioando o XMLHttpRequest vamos ter nossa forma de usar o ajax*/
+            const xhr = new XMLHttpRequest()
+
+            if (xhr.upload) { //condição para ver se upload esta no objeto
+                xhr.upload.onprogress = e => { //passando função para munitorar o progresso
+                    const atual = e.loaded //mostrarar o quento ja carregou usando o loaded
+                    const total = e.total //mostrarar o tamanho total do arquivo
+                    const percentual = Math.floor(atual / total * 100) //mostrar a porcentagem que esta o upload
+                    config.progresso({ atual, total, percentual }) //essa função progresso esperamos receber do objeto config
+                }
+            }
+
+            //para iniciar uma solicitação usamos a função open e no primeiro parametro colocamos o tipo da requisição.
+            xhr.open("post", config.url, true) /*pegamos como segundo parametro a url do argumento da função
+            e passamos como terceiro argumento diz se a requisição vai ou não ser feita de forma assicrona.
+            (não tem sentido ser sincrona)*/
+
+            //como vamos fazer uma requisição post, vamos enviar informações para o servidor
+            xhr.send(config.formData)
+        }
+
+        document.querySelector('input[type=file]').onchange = e => { //o evento onchange em um input type file monitora quando foi selecionado algum arquivo
+            const formData = new FormData() //criando um objeto formData vazio
+            const inputFile = e.target //passando o disparo do evento para uma constante (no caso o input)
+            formData.append(inputFile.name, inputFile.files[0]) /*adicionando chave valor com o append, o nome como chave 
+            a primeira propriedade do meu elemento input*/
+
+            ajaxUpload({
+                url: "upload",
+                formData: formData,
+                progresso(dados) {
+                    const progresso = document.querySelector('.progresso')
+                    progresso.innerHTML = JSON.stringify(dados)
+                }
+            })
+        }
+    </script>
+</body>

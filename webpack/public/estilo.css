@@ -1,0 +1,14 @@
+body {
+  background-color: #444;
+  background-image: url(cf80b3b44aba87ab186bf2b37bc62a59.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh; }
+
+/*para interpretar o css o webpack precisa de um loader especifico. Para configurarmos isso, temos que na pasta do webpack e configurar o module com o loader necessario*/
+
+.botao {
+  background-color: #19b3e6;
+  color: #fff;
+  font-size: 1.8em; }
+
