@@ -12,6 +12,7 @@ const initialState = {
     current: 0
 }
 
+//Comonente baseado em classe
 export default class Calculator extends Component {
 
     state = {...initialState}
@@ -75,6 +76,7 @@ export default class Calculator extends Component {
 
     render() {
         return (
+            // Para adicionar classe num código jsx usamos classeName
             <div className="calculator">
                 <Finder value={this.state.finderValue}/>
                 <Buttons label='AC' click={this.clearMemory} triple />

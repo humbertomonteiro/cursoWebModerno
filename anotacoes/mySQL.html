@@ -1,0 +1,453 @@
+<h1>MySQL</h1>
+<h2>Modelo Entidade/Relacionamento</h2>
+<p>
+    Seria como se fosse uma tabela. Armazenamos de forma tabular.
+    A entidade seria a própria tabela a tabela é dividadea em colunas
+    cada coluna tem um tipo e as linhas(que são as tuplas) represemtam
+    os dados da tabela. Este dado tem que esta aderente as retrições
+    do esquema, diferente de um banco mongo (um banco não relacional.).
+</p>
+<p>
+    Outro conceito muito importante é o de relacionamento. Se tivermos uma
+    tabela cliente e outra tabela produto em site de vendas, precisariamos
+    de uma outra tabela para relacionar essa duas como uma tabela de compra.
+</p>
+
+<h2>Relacionamento</h2>
+<p>
+    Para entendermos o relacionamento, precisamos entender um conceito 
+    chamado de <strong>chave primaria(primer key(PK))</strong>.
+</p>
+<h3>Caracteristicas da PK</h3>
+<ul>
+    <li>única</li>
+    <li>Não vazia</li>
+    <li>Não muda</li>
+</ul>
+<p>
+    Para entendermos melhor como funciona, vamos exemplificar: Em uma tabela
+    cliente temos quatro colunas: código, nome, email, cpf. Agora vamos dizer
+    que a primeira coluna é a PK. Normalmente temos duas possibilidades de
+    trabalhar com essa chave primaria. Ou teremos uma coluna que é gerada a
+    partir de uma <strong>surrogate key</strong>(é uma chave artificial), que seria um dado que
+    não tem nenhum significado pro cliente. para que ele possa ser único na
+    tabela. A outra forma é com uma <strong>Natural key</strong> que seria com
+    um dado da pessoa, como por exemplo o cpf ou rg. Com essa forma temos que 
+    tomar cuidade, pois caso tenha algum erro, será muito dificil mudar a chave
+    cadastrada. Podemos usar condições para aceitar os dados da coluna, Então
+    caso quisessimos que qualquer dado só possa ser usado para um único cliente
+    não precisariamos transformar esse dado em uma PK, apenas adicionariamos as
+    regras de dados.
+</p>
+<h2>Mecânica de Relacionamento</h2>
+<h3>Um para muitos</h3>
+<p>
+    Veja essa tabela mães:
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>Mães</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Mãe</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Maria</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Antonia</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    E a tabela filhos:
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>Filhos</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Filho</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Julia</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Bento</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Ana</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Para conseguirmos relacionar uma tabela com a outra podemos usar o código da mãe
+    em uma terceira coluna na tabela filhos com o código da respectiva mãe de cada filho.
+</p>
+    <table>
+    <thead>
+        <tr>
+            <th>Filhos</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Filho</td>
+            <td>id Mãe</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Julia</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Bento</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Ana</td>    
+            <td>2</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Quando a chave vai para outra coluna de outra tabela chamamos ela de chave estrangeira
+    (forem key(FK)). Dessa forma uma tabela depende da outra, se caso precisarmos apagar
+    uma mãe da tabela mães, primeiro teriamos que apagar seus respectivos filhos ou se caso 
+    a tabela filhos aceitasse um valor null na seu compo mãe. Isso acontece para que não
+    fiquem inconsistencias nos dados. Banco relacional não permite inconsistencias
+</p>
+<h3>Um para um</h3>
+<p>
+    Se fossemos fazer uma tabela de casamento onde as chaves estrangeiras não pederiam se 
+    repetir, pois no caso uma dessa tabela só teremos uma pessoa com outra e não com varias.
+    Nesse caso usamos uma constrem de chave única(unique), para ficar condicionado que não 
+    pode ter chaves estrangeiras repetidas.
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>Maridos</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Marido</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Humberto</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Thiago</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Diego</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <thead>
+        <tr>
+            <th>Mulheres</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Mulher</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Fernanda</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Andreia</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Beatriz</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Podemos usar a FK em qualquer umas das tabelas, não vai fazer diferença.
+    Aqui faremos na tabela das mulheres.
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>Mulheres</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Mulher</td>
+            <td>id Marido</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Fernanda</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Andreia</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Beatriz</td>
+            <td>3</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Então como usamos uma constrem de chave única(unique), não será 
+    permitido ter chaves estrangeiras repetidas.
+</p>
+<h4>Informações importantes</h4>
+<p>
+    Num exemplo de duas tabelas, uma Cidades e a outra prefeito tabem seria
+    uma relação um pra um. Não é permitido que não passe PK para as duas 
+    tabelas:
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>Cidades</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>cidade</td>
+            <td>id prefeito</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>São Paulo</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Fortaleza</td>
+            <td>2</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <thead>
+        <tr>
+            <th>Prefeitos</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Prefeito</td>
+            <td>id cidade</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Joãozinho</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Pedrinho</td>
+            <td>2</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Então a dica para escolher qual das tabelas irá receber o PK é de acordo
+    com sua aplicação. No exemplo acima, usando o PK na tabela de prefeito
+    conseguiriamos indentificar muito facilmente que o prefeito exerce sua
+    atividade na cidade com o PK atribuido, mas se olharmos a tabela da cidades 
+    não conseguiriamos indentificar o prefeito, pois não tem uma coluna com o id 
+    do prefeito. Então se sua aplicação usa mais o preito para achar a cidade, 
+    faça com que o PK vá para a tabela mais solicitada, no caso a do prefeito. 
+    Do contrario, se sua aplicação usa mais a cidade para buscar dados, seria 
+    mais vantajoso que o PK do prefeito estivesse na tabela da cidade.  
+</p>
+<h3>Muitos para Muitos</h3>
+<p>
+    Aqui vamos pensar em duas tabelas, uma para tios e outra para sobrinhos.
+</p>   
+<table>
+    <thead>
+        <tr>
+            <th>Tios</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Tios</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Flavio</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Cassia</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Espedito</td>
+        </tr>
+    </tbody>
+</table>
+<table>
+    <thead>
+        <tr>
+            <th>Sobrinhos</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id</td>
+            <td>Sobrinho</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Diego</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Humberto</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Breno</td>
+        </tr>
+    </tbody>
+</table>
+<p>
+    Aqui nesse caso vamos pensar que todos são da mesma familia. Para conseguirmos
+    relacionar uma tabela com a outra precisariamos colocar que o tio 1 é tio do 
+    sobrinho 1, 2 e 3. O tio 2 e 3 tabem. Então não daria certo, pois ficariam com dados 
+    iguais.
+</p>
+<p>
+    Uma das formas de resolvermos esse problema temos que fazer outra tabela da seguinte 
+    forma:
+</p>
+<table>
+    <thead>
+        <tr>Tios_Sobrinhos</tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>id Tio</td>
+            <td>id Sobrinho</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>3</td>
+        </tr> 
+        <tr>
+            <td>2</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>3</td>
+        </tr> 
+        <tr>
+            <td>3</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>3</td>
+        </tr>     
+    </tbody>
+</table>
+<p>
+    Agora usaremos as duas colunas e que cada uma recebe uma FK(Forem Key) 
+    para juntas formarem a PK(prime Key) da tabela Tios_Sobrinhos. No caso 
+    as tabelas tios e sobrinhos não se relacionam entre si. Formamos uma nova
+    tabela para receber seus códigos um para muitos, como no primeiro caso
+    mostrado.
+</p>
+<h1>SQL</h1>
+<p>Standard Query Language é divida em quatro partes:</p>
+<ul>
+    <li>
+        DML: Data Manipulation Linguage
+        <ul>
+            <li>Insert</li>
+            <li>Select</li>
+            <li>Update</li>
+            <li>Delete</li>
+        </ul>
+    </li>
+    <li>
+        DDL: Data Definition Linguage
+        <ul>
+            <li>Create</li>
+            <li>Alter</li>
+            <li>Drop</li>
+        </ul>
+    </li>
+    <li>
+        DCL: Data Control Linguage
+        <ul>
+            <li>Grant</li>
+            <li>Deny</li>
+            <li>Rovoke</li>
+        </ul>
+    </li>
+    <li>
+        TCL: Transactions Control Linguage
+        <ul>
+            <li>Begin Trans</li>
+            <li>commit Trans</li>
+            <li>Roll Back</li>
+        </ul>
+    </li>
+</ul>
+<h2>Para baixar MySQL</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/laLWx2bMWcg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2>Para conectar MySQL com VS Code</h2>
+<p><iframe width="560" height="315" src="https://www.youtube.com/embed/7AaTrA-H_Io" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>

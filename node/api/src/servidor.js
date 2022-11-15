@@ -1,13 +1,14 @@
 const porta = 3003
+const express = require('express') //importando express para fazer as requisições
+const app = express() //instanciando o express
+const bodyParser = require('body-parser') //importando body-parser
+const bancoDeDados = require('./bancoDeDados') //importando modolo criado na pasta srs do projeto
 
-const express = require('express')
-const app = express()
-const bodyParser = require('body-parser')
-const bancoDeDados = require('./bancoDeDados')
-
+//usando a função use para que todas as requisições passem por ela com o extended true para evitar 
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get ('/produtos', (req, res, next) =>{
+//requisição get para pegar os produtos do banco de dados
+app.get('/produtos', (req, res, next) =>{
     res.send(bancoDeDados.getProdutos())
 })
 

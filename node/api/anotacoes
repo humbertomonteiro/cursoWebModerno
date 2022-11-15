@@ -1,4 +1,4 @@
-na pasta node foi criada a pasta projeto1.0
+na pasta node foi criada a pasta api
 
 no terminal entramos na pasta node depois nessa pasta que criamos
 
@@ -7,14 +7,13 @@ package.json dentro da pasta criada
 
 instalamos o express da seguinte forma
 
-npm i --save express@4.16.2 -E
-
-(na pasta anotações tem o significado desses comandos)
+npm i express
 
 vamos seguir um padrão usado pelo professor do curso e criar uma
 pasta nomeada como src, que seria a pasta do codigo fonte.
 
-nessa pasta criamos um arquivo servidor.js
+nessa pasta criamos um arquivo servidor.js que será onde vamos fazer
+nosso servidor com express
 
 vamos começar declarando uma porta, pois sempre que estamos trabalhando 
 com algum tipo de aplicação que tenha interação e comunicaçao com rede 
@@ -23,46 +22,53 @@ precisamos usar esse macanismo.
 porta é um processo de conexão com rede dentro de um computador, que 
 mostrará onde será interpretado cada pacote recebido.
 como exemplo o browser ou o whatsapp usam conexão com rede, então para 
-para saber qual dos dois processos vão interpretar os dados, alem do ip que 
-é para saber onde está a maquina que irá receber, tambem é mandada a porta para 
-saber qual aplicação irá interpretar de fato os dados.
-E essa porta é única por processo, caso start a aplicação duas vezes vai dar
-problema, pois a porta já está sendo executada.
+para saber qual dos dois processos vão interpretar os dados, alem do ip da
+maquina que vai servir para saber onde está a maquina que irá receber os
+dados, tambem é mandada a porta para saber qual aplicação irá interpretar 
+de fato os dados. E essa porta é única por processo, caso start a aplicação 
+duas vezes vai dar problema, pois a porta já está sendo executada.
 
 curiosidade:
 a porta 80 é a porta padrão
 
-continuando com o exercicio...
-
 dentro do arquivo package.json o main está com o valor index.js e será alterado 
-para src/servidor.js, foram a pasta e o arquivo que criamos.
+para src/servidor.js, foram a pasta e o arquivo que criamos. (podemos deixar index.js
+sem problemas)
 
-e vamos criar um script com nodemon que o ideal é ele estar
+e vamos criar um script com nodemon, o ideal é ele estar
 na depencia apenas do desinvolvimento, pois não é usado na 
-pratica em produção
+prática em produção
 
-npm i --save-dev nodemon@1.14.11 -E
+npm i --save-dev nodemon
 
-vamos instalar tambem a biblioteca express
+vamos agora importar o express com a função require para uma constante 
+tambem chamada express no arquivo servidor que criamos na pasta src 
 
-npm i --save express@4.16.2 -E
+const express = require('express') 
 
-vamos agora importar o express para uma constante tambem chamada express no
-arquivo servidor que criamos na pasta src e em seguida inicia-lo, pois ele 
-é uma função. Para iniciar é muito simples vamos criar outra constante com 
-o nome app e atribuir o express, chamando-o. const app = express()
+e em seguida inicia-lo, pois ele é uma função. Para iniciar é muito simples.
+Vamos criar outra constante com o nome app e atribuir o express, chamando-o. 
+
+const app = express()
 
 ------------------------------------------------------------------------
 
-em seguida criamos um novo arquivo chamado bancoDeDados.js que vai servir
-para criarmos funcões que irão ser usadas nas requisições do espress. nesse
-arquivo vamos começar criando um pequeno objeto para representar uma sequencia, 
-para adicionar os id dos objetos que vamos persistir, quer dizer que o produto 
+em seguida criamos um novo arquivo na pasta src chamado bancoDeDados.js que vai 
+servir para criarmos funcões que irão ser usadas nas requisições do espress. nesse
+arquivo vamos começar criando um objeto para representar uma sequência 
+para adicionar os id dos objetos que vamos persistir. Quer dizer que o produto 
 que for passado que não tiver o id, o id será adicionado a partir desse objeto.
 nomeamos ele como sequence.
 
+const sequence = {
+    _id: 1, //_ informa que é um elemento é interno
+    get id() { return this._id++}
+}
+
 agora criamos um objeto vazio chamado produtos para atribuimos os
-produtos que vamos cadastrar no nosso projeto. que terá nome, preco e id
+produtos que vamos cadastrar no nosso projeto.
+
+const produtos = {}
 
 -------------------------------------------------------------------------
 requisição post para adicionar
@@ -70,15 +76,13 @@ requisição post para adicionar
 
 agora vamos criar uma função salvarProduto passando o parametro produto.
 justamente para cadastrarmos os produtos.
-Dentro dessa função vamos fazer uma condição. Se o id do produto for
-null ou undefined, o produto vai receber o id do objeto sequence que 
-criamos.
-if(!produto.id)produto.id = sequence.id
 
-e em seguida fazemos uma atribuição ao objeto vazio criado anteriormente.
-terá como chave o produto[id] que foi passado e o valor desse atributo
-será o proprio produto.
-produtos[produto.id] = produto
+function salvarProduto(produto) {
+    if (!produto.id) produto.id = sequence.id //condição para adicionar id caso não tenha.
+    produtos[produto.id] = produto /*com a notação [] passamos para o objeto produtos o id 
+    e atribuimos a esse ai o produto passado para função*/
+    return produto //retornamos o produto
+}
 
 aqui o objeto vazio está recebendo o protudo.id como chave e o parametro 
 passado para função como valor. Então finalmento essa função irá retornar 
